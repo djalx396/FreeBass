@@ -1,0 +1,88 @@
+{
+  "model": "FreeBass generator v0 (fitted to Waves R Bass captures, 2026-11-09)",
+  "notes": "All filter frequencies are multiples of Freq (Hz); envelope times in ms; levels in linear full-scale. Analog prototypes, bilinear-transformed at the host rate.",
+  "crossover": {
+    "hp": "Butterworth 3rd order at F",
+    "orig_lp": "Butterworth 3rd order at F"
+  },
+  "stereo": "path input = (L+R)/2, path output added to both channels",
+  "generator": {
+    "input_lp": {
+      "type": "Butterworth 3rd order lowpass",
+      "fc_over_F": 1.212
+    },
+    "envelope": {
+      "detector": "peak |u|, one-pole",
+      "attack_ms": 12.219999999999999,
+      "release_ms": 12.500000000000002
+    },
+    "gain_law": {
+      "formula": "l = max(log10(E+1e-6), l0); c = u * 10^(a1*l + a2*l^2)",
+      "a1": -0.611,
+      "a2": -0.076,
+      "l0": -1.73
+    },
+    "branch_c": {
+      "gain": -11.740716568029987,
+      "sections": [
+        {
+          "type": "hp2",
+          "w_over_F": 0.8714678594024661,
+          "Q": 1.3703418038704849
+        },
+        {
+          "type": "hp2",
+          "w_over_F": 0.41699516223981997,
+          "Q": 1.551702012048711
+        },
+        {
+          "type": "hp1",
+          "w_over_F": 27.574048086248276
+        },
+        {
+          "type": "lp2",
+          "w_over_F": 7.178056242513452,
+          "Q": 0.2388569815256099
+        }
+      ]
+    },
+    "branch_nl": {
+      "shaper": "v = k1*c^2 + k2*c|c| + k3*|c|^3 + k4*c^3",
+      "k": [
+        0.18538382325726338,
+        0.05678846189603427,
+        -0.022254386508740228,
+        0.0016632875283814257
+      ],
+      "sections": [
+        {
+          "type": "hp2",
+          "w_over_F": 1.7267580205833082,
+          "Q": 1.5303286712736714
+        },
+        {
+          "type": "lp2",
+          "w_over_F": 1.0097222767964396,
+          "Q": 2.6803022958660976
+        },
+        {
+          "type": "lp2",
+          "w_over_F": 3.92923314798861,
+          "Q": 3.8362286667415924
+        }
+      ]
+    },
+    "path": "P = gain*Hc(c) + Hn(v)"
+  },
+  "intensity": "path * 10^(Int/20)",
+  "path_limiter": {
+    "ceiling_dbfs": -3.0,
+    "attack": "instant (no overshoot)",
+    "release_ms": 45.0
+  },
+  "output": "(HP + [Orig]*LP + limited path) * 10^(OutGain/20), then hard clip at +/-1.0",
+  "validation": {
+    "path_law_grid_nmse_db": "-20.0 to -25.7 across Freq 32..256 (sweeps ~-23..-26, tones ~-25..-27)",
+    "end_to_end_full_renders_db": "-17.9 to -28.2"
+  }
+}
